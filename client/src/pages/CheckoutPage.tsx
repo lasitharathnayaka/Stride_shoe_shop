@@ -2,9 +2,14 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
+  Check,
   CreditCard,
   Lock,
+  ShieldCheck,
+  Tag,
+  Truck,
   Wallet,
+  Zap,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import type { PlacedOrderState } from '@/pages/OrderConfirmationPage';
@@ -73,44 +78,67 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="bg-[#FAFAFA] py-10 lg:py-14">
-      <div className="mx-auto max-w-6xl px-6 lg:px-10">
-        {/* Page Header */}
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <p className="text-[10px] font-semibold tracking-[0.16em] text-neutral-400 uppercase">
-              STEP 04 OF 04
-            </p>
-            <h1 className="mt-1 font-editorial text-2xl font-semibold tracking-tight text-neutral-900 sm:text-3xl">
-              Finalize Your Acquisition
-            </h1>
-          </div>
+    <div className="bg-[#F5F5F7]">
+      {/* Dark Obsidian Checkout Header Banner */}
+      <section className="relative overflow-hidden bg-[#09090B] text-white">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[#F04E2A]/60 to-transparent"
+        />
 
-          <div className="inline-flex items-center gap-2 self-start rounded-md bg-[#F0F0F2] px-3.5 py-2 text-[11px] font-medium text-neutral-600 sm:self-auto">
-            <Lock className="h-3.5 w-3.5 text-neutral-500" strokeWidth={1.8} />
-            <span>Secure 256-Bit Encrypted Checkout</span>
+        <div className="mx-auto max-w-6xl px-6 py-9 lg:px-10 lg:py-11">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-[10px] font-bold tracking-[0.2em] text-[#F04E2A] uppercase">
+                STEP 04 OF 04 • EXPRESS CHECKOUT
+              </p>
+              <h1 className="mt-1.5 font-display text-2xl font-bold tracking-tight text-white uppercase sm:text-3xl">
+                FINALIZE YOUR ACQUISITION
+              </h1>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="hidden items-center gap-2 text-[11px] font-semibold text-neutral-400 sm:flex">
+                <span className="inline-flex items-center gap-1 text-emerald-400">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.6} /> Bag
+                </span>
+                <span className="text-white/20">/</span>
+                <span className="inline-flex items-center gap-1 text-emerald-400">
+                  <Check className="h-3.5 w-3.5" strokeWidth={2.6} /> Shipping
+                </span>
+                <span className="text-white/20">/</span>
+                <span className="text-white">Payment</span>
+              </div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-medium text-neutral-200 backdrop-blur-md">
+                <Lock className="h-3.5 w-3.5 text-[#F04E2A]" strokeWidth={2} />
+                <span>256-Bit Encrypted Checkout</span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Main 2-Column Checkout Form */}
+      {/* Main 2-Column Checkout Form */}
+      <div className="mx-auto max-w-6xl px-6 py-10 lg:px-10 lg:py-12">
         <form
           onSubmit={handlePlaceOrder}
-          className="mt-8 grid grid-cols-1 items-start gap-7 lg:grid-cols-12"
+          className="grid grid-cols-1 items-start gap-7 lg:grid-cols-12"
         >
           {/* Left Column: Steps 1, 2, 3 */}
           <div className="space-y-6 lg:col-span-7">
             {/* Step 1: Contact & Shipping Address */}
-            <section className="rounded-xl bg-[#F3F3F5] p-6">
-              <div className="flex items-center justify-between">
+            <section className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-7">
+              <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-neutral-900 text-[11px] font-bold text-white">
-                    1
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-950 font-mono text-xs font-bold text-white">
+                    01
                   </span>
-                  <h2 className="font-editorial text-sm font-semibold text-neutral-900 sm:text-base">
+                  <h2 className="font-display text-sm font-bold tracking-wide text-neutral-950 uppercase sm:text-base">
                     Contact &amp; Shipping Address
                   </h2>
                 </div>
-                <span className="text-[10px] font-semibold tracking-[0.12em] text-neutral-400 uppercase">
+                <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-[9px] font-bold tracking-[0.14em] text-neutral-500 uppercase">
                   REQUIRED
                 </span>
               </div>
@@ -119,7 +147,7 @@ export default function CheckoutPage() {
                 <div>
                   <label
                     htmlFor="checkout-email"
-                    className="block text-[11px] font-medium text-neutral-600"
+                    className="block text-[11px] font-bold tracking-wide text-neutral-700"
                   >
                     Email Address
                   </label>
@@ -129,14 +157,14 @@ export default function CheckoutPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="checkout-name"
-                    className="block text-[11px] font-medium text-neutral-600"
+                    className="block text-[11px] font-bold tracking-wide text-neutral-700"
                   >
                     Full Name
                   </label>
@@ -146,14 +174,14 @@ export default function CheckoutPage() {
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="checkout-street"
-                    className="block text-[11px] font-medium text-neutral-600"
+                    className="block text-[11px] font-bold tracking-wide text-neutral-700"
                   >
                     Street Address
                   </label>
@@ -163,7 +191,7 @@ export default function CheckoutPage() {
                     required
                     value={street}
                     onChange={(e) => setStreet(e.target.value)}
-                    className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                   />
                 </div>
 
@@ -171,7 +199,7 @@ export default function CheckoutPage() {
                   <div>
                     <label
                       htmlFor="checkout-city"
-                      className="block text-[11px] font-medium text-neutral-600"
+                      className="block text-[11px] font-bold tracking-wide text-neutral-700"
                     >
                       City
                     </label>
@@ -181,14 +209,14 @@ export default function CheckoutPage() {
                       required
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                      className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                     />
                   </div>
 
                   <div>
                     <label
                       htmlFor="checkout-postal"
-                      className="block text-[11px] font-medium text-neutral-600"
+                      className="block text-[11px] font-bold tracking-wide text-neutral-700"
                     >
                       Postal Code
                     </label>
@@ -198,7 +226,7 @@ export default function CheckoutPage() {
                       required
                       value={postalCode}
                       onChange={(e) => setPostalCode(e.target.value)}
-                      className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                      className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                     />
                   </div>
                 </div>
@@ -206,7 +234,7 @@ export default function CheckoutPage() {
                 <div>
                   <label
                     htmlFor="checkout-phone"
-                    className="block text-[11px] font-medium text-neutral-600"
+                    className="block text-[11px] font-bold tracking-wide text-neutral-700"
                   >
                     Phone Number (for courier updates)
                   </label>
@@ -216,41 +244,46 @@ export default function CheckoutPage() {
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 text-xs font-medium text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
             </section>
 
             {/* Step 2: Delivery Method */}
-            <section className="rounded-xl bg-[#F3F3F5] p-6">
-              <div className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-md bg-neutral-900 text-[11px] font-bold text-white">
-                  2
+            <section className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-7">
+              <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-950 font-mono text-xs font-bold text-white">
+                  02
                 </span>
-                <h2 className="font-editorial text-sm font-semibold text-neutral-900 sm:text-base">
+                <h2 className="font-display text-sm font-bold tracking-wide text-neutral-950 uppercase sm:text-base">
                   Delivery Method
                 </h2>
               </div>
 
-              <div className="mt-5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <button
                   type="button"
                   onClick={() => setDelivery('standard')}
-                  className={`flex flex-col justify-between rounded-lg border bg-white p-4 text-left transition-all ${
+                  className={`flex flex-col justify-between rounded-xl border p-4 text-left transition-all ${
                     delivery === 'standard'
-                      ? 'border-neutral-900 ring-1 ring-neutral-900'
-                      : 'border-neutral-200/80 hover:border-neutral-400'
+                      ? 'border-neutral-950 bg-[#FAFAFB] ring-2 ring-[#F04E2A]/20'
+                      : 'border-neutral-200 bg-white hover:border-neutral-400'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="font-editorial text-xs font-semibold text-neutral-900">
-                        Standard Archive
-                      </p>
-                      <p className="mt-1 text-[11px] leading-relaxed text-neutral-500">
-                        3–5 Business Days via Secure Transit
-                      </p>
+                    <div className="flex items-start gap-2.5">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-neutral-950 text-white">
+                        <Truck className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="font-display text-xs font-bold text-neutral-950 uppercase">
+                          Standard Archive
+                        </p>
+                        <p className="mt-0.5 text-[11px] leading-relaxed text-neutral-500">
+                          3–5 Business Days via Secure Transit
+                        </p>
+                      </div>
                     </div>
                     <span
                       className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
@@ -264,28 +297,33 @@ export default function CheckoutPage() {
                       )}
                     </span>
                   </div>
-                  <p className="mt-4 text-[11px] font-bold tracking-wide text-neutral-900 uppercase">
+                  <span className="mt-4 inline-block self-start rounded bg-emerald-50 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-700 uppercase">
                     FREE
-                  </p>
+                  </span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setDelivery('express')}
-                  className={`flex flex-col justify-between rounded-lg border bg-white p-4 text-left transition-all ${
+                  className={`flex flex-col justify-between rounded-xl border p-4 text-left transition-all ${
                     delivery === 'express'
-                      ? 'border-neutral-900 ring-1 ring-neutral-900'
-                      : 'border-neutral-200/80 hover:border-neutral-400'
+                      ? 'border-neutral-950 bg-[#FAFAFB] ring-2 ring-[#F04E2A]/20'
+                      : 'border-neutral-200 bg-white hover:border-neutral-400'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <p className="font-editorial text-xs font-semibold text-neutral-900">
-                        Express Priority
-                      </p>
-                      <p className="mt-1 text-[11px] leading-relaxed text-neutral-500">
-                        Next-Day Guaranteed Delivery
-                      </p>
+                    <div className="flex items-start gap-2.5">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#FDECE7] text-[#F04E2A]">
+                        <Zap className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="font-display text-xs font-bold text-neutral-950 uppercase">
+                          Express Priority
+                        </p>
+                        <p className="mt-0.5 text-[11px] leading-relaxed text-neutral-500">
+                          Next-Day Guaranteed Delivery
+                        </p>
+                      </div>
                     </div>
                     <span
                       className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
@@ -299,7 +337,7 @@ export default function CheckoutPage() {
                       )}
                     </span>
                   </div>
-                  <p className="mt-4 text-[11px] font-semibold text-neutral-700">
+                  <p className="mt-4 font-display text-xs font-bold text-neutral-900">
                     $15.00
                   </p>
                 </button>
@@ -307,32 +345,32 @@ export default function CheckoutPage() {
             </section>
 
             {/* Step 3: Payment Method */}
-            <section className="rounded-xl bg-[#F3F3F5] p-6">
-              <div className="flex items-center justify-between">
+            <section className="rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-7">
+              <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-neutral-900 text-[11px] font-bold text-white">
-                    3
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-neutral-950 font-mono text-xs font-bold text-white">
+                    03
                   </span>
-                  <h2 className="font-editorial text-sm font-semibold text-neutral-900 sm:text-base">
+                  <h2 className="font-display text-sm font-bold tracking-wide text-neutral-950 uppercase sm:text-base">
                     Payment Method
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-2 text-neutral-500">
+                <div className="flex items-center gap-2 text-neutral-400">
                   <CreditCard className="h-4 w-4" strokeWidth={1.7} />
                   <Wallet className="h-4 w-4" strokeWidth={1.7} />
                 </div>
               </div>
 
-              {/* Payment Tabs */}
-              <div className="mt-4 flex items-center gap-6 border-b border-neutral-200/90">
+              {/* Payment Pill Switcher */}
+              <div className="mt-5 inline-flex rounded-xl bg-neutral-100 p-1">
                 <button
                   type="button"
                   onClick={() => setPaymentTab('card')}
-                  className={`border-b-2 pb-2.5 text-xs font-semibold transition-colors ${
+                  className={`rounded-lg px-4 py-2 text-xs font-bold transition-all ${
                     paymentTab === 'card'
-                      ? 'border-neutral-900 text-neutral-900'
-                      : 'border-transparent text-neutral-500 hover:text-neutral-900'
+                      ? 'bg-neutral-950 text-white shadow-xs'
+                      : 'text-neutral-500 hover:text-neutral-950'
                   }`}
                 >
                   Credit / Debit Card
@@ -340,10 +378,10 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setPaymentTab('wallet')}
-                  className={`border-b-2 pb-2.5 text-xs font-semibold transition-colors ${
+                  className={`rounded-lg px-4 py-2 text-xs font-bold transition-all ${
                     paymentTab === 'wallet'
-                      ? 'border-neutral-900 text-neutral-900'
-                      : 'border-transparent text-neutral-500 hover:text-neutral-900'
+                      ? 'bg-neutral-950 text-white shadow-xs'
+                      : 'text-neutral-500 hover:text-neutral-950'
                   }`}
                 >
                   Digital Wallet
@@ -355,7 +393,7 @@ export default function CheckoutPage() {
                   <div>
                     <label
                       htmlFor="checkout-card"
-                      className="block text-[11px] font-medium text-neutral-600"
+                      className="block text-[11px] font-bold tracking-wide text-neutral-700"
                     >
                       Card Number
                     </label>
@@ -366,9 +404,9 @@ export default function CheckoutPage() {
                         required
                         value={cardNumber}
                         onChange={(e) => setCardNumber(e.target.value)}
-                        className="w-full rounded-md border border-neutral-200/80 bg-white py-2.5 pr-16 pl-3.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                        className="w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] py-2.5 pr-16 pl-4 font-mono text-xs font-semibold text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                       />
-                      <span className="absolute top-1/2 right-3 -translate-y-1/2 rounded bg-neutral-100 px-2 py-0.5 text-[10px] font-bold tracking-wider text-neutral-600">
+                      <span className="absolute top-1/2 right-3 -translate-y-1/2 rounded bg-neutral-950 px-2 py-0.5 text-[9px] font-bold tracking-wider text-white">
                         VISA
                       </span>
                     </div>
@@ -378,7 +416,7 @@ export default function CheckoutPage() {
                     <div>
                       <label
                         htmlFor="checkout-expiry"
-                        className="block text-[11px] font-medium text-neutral-600"
+                        className="block text-[11px] font-bold tracking-wide text-neutral-700"
                       >
                         Expiration Date
                       </label>
@@ -388,14 +426,14 @@ export default function CheckoutPage() {
                         required
                         value={expiry}
                         onChange={(e) => setExpiry(e.target.value)}
-                        className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                        className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 font-mono text-xs font-semibold text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                       />
                     </div>
 
                     <div>
                       <label
                         htmlFor="checkout-cvv"
-                        className="block text-[11px] font-medium text-neutral-600"
+                        className="block text-[11px] font-bold tracking-wide text-neutral-700"
                       >
                         CVV Security Code
                       </label>
@@ -405,7 +443,7 @@ export default function CheckoutPage() {
                         required
                         value={cvv}
                         onChange={(e) => setCvv(e.target.value)}
-                        className="mt-1.5 w-full rounded-md border border-neutral-200/80 bg-white px-3.5 py-2.5 text-xs text-neutral-900 focus:border-neutral-400 focus:outline-none"
+                        className="mt-1.5 w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] px-4 py-2.5 font-mono text-xs font-semibold text-neutral-950 transition-colors focus:border-neutral-950 focus:bg-white focus:outline-none"
                       />
                     </div>
                   </div>
@@ -414,13 +452,13 @@ export default function CheckoutPage() {
                 <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <button
                     type="button"
-                    className="rounded-md bg-neutral-900 py-3 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                    className="rounded-xl bg-neutral-950 py-3 text-xs font-bold text-white transition-opacity hover:opacity-90"
                   >
                     Pay with Apple Pay
                   </button>
                   <button
                     type="button"
-                    className="rounded-md border border-neutral-300 bg-white py-3 text-xs font-semibold text-neutral-900 transition-colors hover:bg-neutral-50"
+                    className="rounded-xl border border-neutral-300 bg-[#FAFAFB] py-3 text-xs font-bold text-neutral-900 transition-colors hover:bg-white"
                   >
                     Pay with Google Pay
                   </button>
@@ -429,152 +467,169 @@ export default function CheckoutPage() {
             </section>
           </div>
 
-          {/* Right Column: Order Summary */}
-          <aside className="rounded-xl bg-[#F3F3F5] p-6 lg:sticky lg:top-24 lg:col-span-5">
-            <div className="flex items-center justify-between border-b border-neutral-200/80 pb-4">
-              <h2 className="font-editorial text-sm font-semibold text-neutral-900 sm:text-base">
-                Order Summary
+          {/* Right Column: Obsidian-Capped Sticky Order Summary */}
+          <aside className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-sm lg:sticky lg:top-24 lg:col-span-5">
+            {/* Dark Obsidian Header */}
+            <div className="flex items-center justify-between bg-[#09090B] px-6 py-4 text-white">
+              <h2 className="font-display text-xs font-bold tracking-[0.18em] uppercase">
+                ORDER SUMMARY
               </h2>
-              <span className="text-[11px] font-medium text-neutral-500">
+              <span className="rounded-full bg-[#F04E2A] px-2.5 py-0.5 font-mono text-[10px] font-bold text-white">
                 {totalCount} {totalCount === 1 ? 'Item' : 'Items'}
               </span>
             </div>
 
-            {/* Summary Items */}
-            {items.length === 0 ? (
-              <div className="py-8 text-center">
-                <p className="text-xs text-neutral-500">Your bag is empty.</p>
-                <Link
-                  to="/collections"
-                  className="mt-3 inline-block text-xs font-semibold text-stride-red underline"
-                >
-                  Browse Collection
-                </Link>
-              </div>
-            ) : (
-              <div className="divide-y divide-neutral-200/60 py-2">
-                {items.map((entry) => (
-                  <div
-                    key={entry.key}
-                    className="flex items-center justify-between gap-3 py-3.5"
+            <div className="p-6">
+              {/* Scrollable Summary Items */}
+              {items.length === 0 ? (
+                <div className="py-8 text-center">
+                  <p className="text-xs text-neutral-500">Your bag is empty.</p>
+                  <Link
+                    to="/collections"
+                    className="mt-3 inline-block text-xs font-bold text-[#F04E2A] underline"
                   >
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={entry.product.image}
-                        alt={entry.product.name}
-                        className="h-14 w-14 shrink-0 rounded-lg bg-[#E5E5E7] object-cover"
-                      />
-                      <div>
-                        <p className="text-[9px] font-semibold tracking-[0.14em] text-neutral-400 uppercase">
-                          STRIDE LABS
-                        </p>
-                        <h3 className="mt-0.5 font-editorial text-xs font-semibold text-neutral-900">
-                          {entry.product.name}
-                        </h3>
-                        <span className="mt-1 inline-block rounded bg-neutral-200/80 px-2 py-0.5 text-[10px] font-medium text-neutral-600">
-                          Size: {entry.product.size} • Qty {entry.quantity}
-                        </span>
+                    Browse Collection
+                  </Link>
+                </div>
+              ) : (
+                <div className="max-h-[290px] divide-y divide-neutral-100 overflow-y-auto pr-1">
+                  {items.map((entry) => (
+                    <div
+                      key={entry.key}
+                      className="flex items-center justify-between gap-3 py-3.5 first:pt-0"
+                    >
+                      <div className="flex items-center gap-3.5">
+                        <img
+                          src={entry.product.image}
+                          alt={entry.product.name}
+                          className="h-14 w-14 shrink-0 rounded-xl bg-[#ECECEF] object-cover"
+                        />
+                        <div>
+                          <p className="text-[9px] font-bold tracking-[0.14em] text-neutral-400 uppercase">
+                            STRIDE LABS
+                          </p>
+                          <h3 className="mt-0.5 font-display text-xs font-bold text-neutral-950">
+                            {entry.product.name}
+                          </h3>
+                          <span className="mt-1 inline-block rounded bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold text-neutral-600">
+                            {entry.product.size} • Qty {entry.quantity}
+                          </span>
+                        </div>
                       </div>
+
+                      <span className="font-display text-xs font-bold text-neutral-950">
+                        ${(entry.product.price * entry.quantity).toFixed(2)}
+                      </span>
                     </div>
-
-                    <span className="text-xs font-semibold text-neutral-900">
-                      ${(entry.product.price * entry.quantity).toFixed(2)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Promo or Archive Code */}
-            <div className="mt-3 flex gap-2">
-              <input
-                type="text"
-                value={promoInput}
-                onChange={(e) => setPromoInput(e.target.value)}
-                placeholder="Promo or Archive Code"
-                aria-label="Promo or Archive Code"
-                className="flex-1 rounded-md border border-neutral-200/80 bg-white px-3 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
-              />
-              <button
-                type="button"
-                onClick={handleApplyPromo}
-                className="rounded-md bg-neutral-900 px-4 py-2 text-[10px] font-bold tracking-wider text-white uppercase transition-opacity hover:opacity-90"
-              >
-                APPLY
-              </button>
-            </div>
-
-            {promoFeedback && (
-              <p
-                className={`mt-1.5 text-[11px] ${
-                  discountRate > 0 ? 'text-emerald-600' : 'text-stride-red'
-                }`}
-              >
-                {promoFeedback}
-              </p>
-            )}
-
-            {/* Totals */}
-            <div className="mt-5 space-y-2.5 border-t border-neutral-200/80 pt-4 text-xs">
-              <div className="flex items-center justify-between text-neutral-500">
-                <span>Subtotal</span>
-                <span className="font-semibold text-neutral-900">
-                  ${subtotal.toFixed(2)}
-                </span>
-              </div>
-
-              {discountAmount > 0 && (
-                <div className="flex items-center justify-between text-emerald-600">
-                  <span>Archive Discount (10%)</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  ))}
                 </div>
               )}
 
-              <div className="flex items-center justify-between text-neutral-500">
-                <span>Estimated Shipping</span>
-                <span className="font-semibold text-neutral-900 uppercase">
-                  {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
-                </span>
+              {/* Promo or Archive Code */}
+              <div className="mt-4 flex gap-2 border-t border-neutral-100 pt-4">
+                <div className="relative flex-1">
+                  <Tag className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-neutral-400" />
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    placeholder="Promo code (STRIDE10)"
+                    aria-label="Promo or Archive Code"
+                    className="w-full rounded-xl border border-neutral-200 bg-[#FAFAFB] py-2.5 pr-3 pl-9 text-xs font-medium text-neutral-950 placeholder:text-neutral-400 focus:border-neutral-950 focus:bg-white focus:outline-none"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleApplyPromo}
+                  className="rounded-xl bg-neutral-950 px-4 py-2.5 text-[10px] font-bold tracking-wider text-white uppercase transition-colors hover:bg-[#F04E2A]"
+                >
+                  Apply
+                </button>
               </div>
 
-              <div className="flex items-center justify-between text-neutral-500">
-                <span>Estimated Tax</span>
-                <span className="font-medium text-neutral-700">
-                  Calculated at step
-                </span>
+              {promoFeedback && (
+                <p
+                  className={`mt-1.5 text-[11px] font-medium ${
+                    discountRate > 0 ? 'text-emerald-600' : 'text-[#F04E2A]'
+                  }`}
+                >
+                  {promoFeedback}
+                </p>
+              )}
+
+              {/* Totals */}
+              <div className="mt-5 space-y-2.5 border-t border-neutral-100 pt-4 text-xs">
+                <div className="flex items-center justify-between text-neutral-500">
+                  <span>Subtotal</span>
+                  <span className="font-semibold text-neutral-900">
+                    ${subtotal.toFixed(2)}
+                  </span>
+                </div>
+
+                {discountAmount > 0 && (
+                  <div className="flex items-center justify-between font-medium text-emerald-600">
+                    <span>Archive Discount (10%)</span>
+                    <span>-${discountAmount.toFixed(2)}</span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between text-neutral-500">
+                  <span>Estimated Shipping</span>
+                  <span
+                    className={
+                      shippingCost === 0
+                        ? 'font-bold text-emerald-600 uppercase'
+                        : 'font-semibold text-neutral-900'
+                    }
+                  >
+                    {shippingCost === 0 ? 'FREE' : `$${shippingCost.toFixed(2)}`}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-neutral-500">
+                  <span>Estimated Tax</span>
+                  <span className="font-medium text-neutral-600">
+                    Calculated at step
+                  </span>
+                </div>
+
+                <div className="flex items-baseline justify-between border-t border-neutral-100 pt-3.5">
+                  <span className="font-display text-xs font-bold text-neutral-950 uppercase">
+                    Total Due
+                  </span>
+                  <span className="font-display text-2xl font-bold text-neutral-950">
+                    ${totalDue.toFixed(2)}
+                  </span>
+                </div>
               </div>
 
-              <div className="flex items-baseline justify-between border-t border-neutral-200/80 pt-3.5">
-                <span className="text-xs font-semibold text-neutral-900">
-                  Total Due
-                </span>
-                <span className="font-editorial text-xl font-bold text-neutral-900">
-                  ${totalDue.toFixed(2)}
-                </span>
+              {/* Place Order CTA */}
+              <button
+                type="submit"
+                disabled={items.length === 0}
+                className="group mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#F04E2A] py-3.5 text-xs font-bold tracking-wider text-white uppercase shadow-md shadow-[#F04E2A]/25 transition-all hover:bg-[#D94120] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <span>Place Order — ${totalDue.toFixed(2)}</span>
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </button>
+
+              <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] font-medium text-neutral-400">
+                <ShieldCheck className="h-3.5 w-3.5 text-neutral-500" />
+                <span>Free 30-Day Size Exchanges • 2-Year Carbon Warranty</span>
               </div>
+
+              <p className="mt-3 text-center text-[10px] leading-relaxed text-neutral-400">
+                By placing your order, you agree to STRIDE&apos;s{' '}
+                <a href="#terms" className="underline hover:text-neutral-800">
+                  Terms of Service
+                </a>{' '}
+                and{' '}
+                <a href="#privacy" className="underline hover:text-neutral-800">
+                  Privacy Policy
+                </a>
+                .
+              </p>
             </div>
-
-            {/* Place Order CTA */}
-            <button
-              type="submit"
-              disabled={items.length === 0}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-[#F04E2A] py-3.5 text-xs font-semibold text-white transition-colors hover:bg-[#D94120] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <span>Place Order — ${totalDue.toFixed(2)}</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-
-            <p className="mt-4 text-center text-[10px] leading-relaxed text-neutral-500">
-              By placing your order, you agree to STRIDE&apos;s{' '}
-              <a href="#terms" className="underline hover:text-neutral-900">
-                Terms of Service
-              </a>{' '}
-              and{' '}
-              <a href="#privacy" className="underline hover:text-neutral-900">
-                Privacy Policy
-              </a>
-              . All archive sales are final.
-            </p>
           </aside>
         </form>
       </div>

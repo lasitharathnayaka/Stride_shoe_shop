@@ -20,6 +20,7 @@ import {
   TECH_SPECS,
 } from '@/data/productDetailData';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import SizeGuideModal from '@/components/product/SizeGuideModal';
 
 type DetailTab = 'specs' | 'sizing' | 'reviews';
@@ -40,13 +41,14 @@ export default function ProductDetailPage() {
   const { slug } = useParams<{ slug?: string }>();
   const product = getProductDetailBySlug(slug);
   const { addToCart } = useCart();
+  const { isWishlisted, toggleWishlist } = useWishlist();
 
   const [activeImage, setActiveImage] = useState<string>(product.gallery[0]);
   const [selectedColorId, setSelectedColorId] = useState<string>(
     product.colors[0].id
   );
   const [selectedSize, setSelectedSize] = useState<string>('US 9.5');
-  const [wishlisted, setWishlisted] = useState<boolean>(false);
+  const wishlisted = isWishlisted(product.slug);
   const [justAdded, setJustAdded] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<DetailTab>('specs');
   const [reviewFilter, setReviewFilter] = useState<ReviewFilter>('All Reviews');
@@ -329,7 +331,18 @@ export default function ProductDetailPage() {
 
               <button
                 type="button"
-                onClick={() => setWishlisted((prev) => !prev)}
+                onClick={() =>
+                  toggleWishlist({
+                    id: product.id,
+                    slug: product.slug,
+                    brand: product.brandLabel,
+                    name: product.name,
+                    colorway: selectedColor.name,
+                    savedSize: selectedSize,
+                    price: product.price,
+                    image: activeImage,
+                  })
+                }
                 className="flex w-full items-center justify-center gap-2 rounded-md border border-neutral-300 bg-white px-5 py-3 text-xs font-semibold text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-neutral-50"
               >
                 <Heart

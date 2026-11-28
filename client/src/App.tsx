@@ -11,6 +11,7 @@ import ExchangeReturnPage from '@/pages/ExchangeReturnPage';
 import WishlistPage from '@/pages/WishlistPage';
 import AuthPage from '@/pages/AuthPage';
 import AdminDashboardPage from '@/pages/AdminDashboardPage';
+import InnovationPage from '@/pages/InnovationPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,6 +31,7 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/innovation" element={<InnovationPage />} />
           <Route path="/product" element={<ProductDetailPage />} />
           <Route path="/product/:slug" element={<ProductDetailPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />

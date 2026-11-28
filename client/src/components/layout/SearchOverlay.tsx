@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, Plus, Search, X } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Flame,
+  Plus,
+  Search,
+  X,
+} from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 interface SearchProduct {
@@ -23,7 +31,14 @@ const SEARCH_PRODUCTS: SearchProduct[] = [
     price: 180.0,
     image: '/images/prod-kinetic.jpg',
     badge: 'NEW',
-    keywords: ['aero', 'runn', 'running', 'velocity', 'carbon plate', 'us 10 deals'],
+    keywords: [
+      'aero',
+      'runn',
+      'running',
+      'velocity',
+      'carbon plate',
+      'us 10 deals',
+    ],
   },
   {
     id: 'search-glide-v2',
@@ -32,7 +47,14 @@ const SEARCH_PRODUCTS: SearchProduct[] = [
     stockNote: 'US 7.5 – 13 in stock',
     price: 150.0,
     image: '/images/hero-apex-pro.jpg',
-    keywords: ['aero', 'runn', 'running', 'glide', 'white leather', 'us 10 deals'],
+    keywords: [
+      'aero',
+      'runn',
+      'running',
+      'glide',
+      'white leather',
+      'us 10 deals',
+    ],
   },
   {
     id: 'search-lite-carbon',
@@ -70,6 +92,7 @@ const TRENDING_SEARCHES = [
 const CATEGORY_LINKS = [
   { label: "Men's Running", count: 42 },
   { label: "Women's Running", count: 38 },
+  { label: 'All-Terrain Trail', count: 19 },
 ];
 
 interface SearchOverlayProps {
@@ -82,7 +105,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const { addToCart } = useCart();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [query, setQuery] = useState('aero runn');
+  const [query, setQuery] = useState('');
   const [justAddedId, setJustAddedId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -133,7 +156,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     return (
       <>
         <span>{text.slice(0, idx)}</span>
-        <span className="font-bold text-stride-red">
+        <span className="font-bold text-[#F04E2A]">
           {text.slice(idx, idx + firstWord.length)}
         </span>
         <span>{text.slice(idx + firstWord.length)}</span>
@@ -163,23 +186,28 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-black/45 backdrop-blur-[1px]"
+      className="fixed inset-0 z-50 flex flex-col bg-black/65 backdrop-blur-md"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label="Predictive Search"
     >
       <div
-        className="w-full bg-[#F5F5F5] shadow-2xl"
+        className="w-full overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top Search Bar */}
-        <div className="border-b border-neutral-200 bg-white">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 lg:px-10">
-            <div className="flex flex-1 items-center gap-3.5">
+        {/* Dark Obsidian Command Search Header */}
+        <div className="relative border-b border-white/10 bg-[#09090B] text-white">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r from-transparent via-[#F04E2A]/60 to-transparent"
+          />
+
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5 lg:px-10">
+            <div className="flex flex-1 items-center gap-4">
               <Search
-                className="h-5 w-5 shrink-0 text-neutral-700"
-                strokeWidth={1.8}
+                className="h-5 w-5 shrink-0 text-[#F04E2A]"
+                strokeWidth={2.2}
               />
               <input
                 ref={inputRef}
@@ -188,11 +216,11 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search silhouettes, carbon plate, trail..."
                 aria-label="Search products"
-                className="w-full bg-transparent font-editorial text-2xl font-bold text-neutral-900 caret-stride-red placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:text-neutral-400 focus:outline-none sm:text-3xl"
+                className="w-full bg-transparent font-display text-xl font-bold tracking-tight text-white caret-[#F04E2A] placeholder:font-sans placeholder:text-base placeholder:font-normal placeholder:text-neutral-500 focus:outline-none sm:text-2xl"
               />
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               {query.length > 0 && (
                 <button
                   type="button"
@@ -200,17 +228,21 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                     setQuery('');
                     inputRef.current?.focus();
                   }}
-                  className="text-[11px] font-semibold tracking-[0.12em] text-neutral-500 uppercase transition-colors hover:text-neutral-900"
+                  className="rounded-md border border-white/15 bg-white/[0.06] px-2.5 py-1 text-[10px] font-bold tracking-[0.14em] text-neutral-300 uppercase transition-colors hover:bg-white/15 hover:text-white"
                 >
-                  CLEAR
+                  Clear
                 </button>
               )}
+
+              <kbd className="hidden rounded-md border border-white/15 bg-white/[0.06] px-2 py-1 font-mono text-[10px] text-neutral-400 sm:inline-block">
+                ESC
+              </kbd>
 
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close search"
-                className="flex h-8 w-8 items-center justify-center rounded-md bg-neutral-100 text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-neutral-300 transition-colors hover:border-[#F04E2A] hover:bg-[#F04E2A] hover:text-white"
               >
                 <X className="h-4 w-4" strokeWidth={2} />
               </button>
@@ -219,173 +251,191 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         </div>
 
         {/* Predictive Results Panel */}
-        <div className="mx-auto max-w-6xl px-6 py-6 lg:px-10 lg:py-8">
-          <div className="grid grid-cols-1 gap-8 rounded-xl border border-neutral-200/70 bg-white p-6 shadow-xs lg:grid-cols-12 lg:p-8">
-            {/* Left Column: Suggestions, Trending, Categories */}
-            <div className="space-y-7 lg:col-span-3 lg:border-r lg:border-neutral-100 lg:pr-6">
-              {/* Suggestions */}
-              <div>
-                <p className="text-[10px] font-semibold tracking-[0.16em] text-neutral-400 uppercase">
-                  SUGGESTIONS
-                </p>
-                <ul className="mt-3 space-y-2.5">
-                  {matchedSuggestions.map((item) => (
-                    <li key={item.label}>
-                      <button
-                        type="button"
-                        onClick={() => handleNavigate(`/product/${item.slug}`)}
-                        className="text-left text-xs text-neutral-700 transition-colors hover:text-neutral-900"
-                      >
-                        {highlightMatch(item.label)}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        <div className="bg-[#F5F5F7]">
+          <div className="mx-auto max-w-6xl px-6 py-6 lg:px-10 lg:py-8">
+            <div className="grid grid-cols-1 gap-8 rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-sm lg:grid-cols-12 lg:p-8">
+              {/* Left Column: Suggestions, Trending, Categories */}
+              <div className="space-y-7 lg:col-span-3 lg:border-r lg:border-neutral-100 lg:pr-6">
+                {/* Suggestions */}
+                <div>
+                  <p className="text-[10px] font-bold tracking-[0.16em] text-neutral-400 uppercase">
+                    SUGGESTIONS
+                  </p>
+                  <ul className="mt-3 space-y-1.5">
+                    {matchedSuggestions.map((item) => (
+                      <li key={item.label}>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleNavigate(`/product/${item.slug}`)
+                          }
+                          className="group flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-neutral-950"
+                        >
+                          <span>{highlightMatch(item.label)}</span>
+                          <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400 opacity-0 transition-opacity group-hover:opacity-100" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-              {/* Trending Searches */}
-              <div>
-                <p className="text-[10px] font-semibold tracking-[0.16em] text-neutral-400 uppercase">
-                  TRENDING SEARCHES
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {TRENDING_SEARCHES.map((term) => (
-                    <button
-                      key={term}
-                      type="button"
-                      onClick={() => setQuery(term)}
-                      className="rounded-md bg-[#F4F4F5] px-3 py-1.5 text-[11px] font-medium text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900"
-                    >
-                      {term}
-                    </button>
-                  ))}
+                {/* Trending Searches */}
+                <div>
+                  <p className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.16em] text-neutral-400 uppercase">
+                    <Flame className="h-3 w-3 text-[#F04E2A]" />
+                    <span>TRENDING SEARCHES</span>
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {TRENDING_SEARCHES.map((term) => (
+                      <button
+                        key={term}
+                        type="button"
+                        onClick={() => setQuery(term)}
+                        className="rounded-full border border-neutral-200/80 bg-[#FAFAFB] px-3 py-1.5 text-[11px] font-semibold text-neutral-700 transition-all hover:border-neutral-950 hover:bg-neutral-950 hover:text-white"
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div>
+                  <p className="text-[10px] font-bold tracking-[0.16em] text-neutral-400 uppercase">
+                    CATEGORIES
+                  </p>
+                  <ul className="mt-3 space-y-1.5">
+                    {CATEGORY_LINKS.map((cat) => (
+                      <li key={cat.label}>
+                        <button
+                          type="button"
+                          onClick={() => handleNavigate('/collections')}
+                          className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-neutral-950"
+                        >
+                          <span>{cat.label}</span>
+                          <span className="rounded bg-neutral-100 px-2 py-0.5 font-mono text-[10px] font-bold text-neutral-500">
+                            {cat.count}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 
-              {/* Categories */}
-              <div>
-                <p className="text-[10px] font-semibold tracking-[0.16em] text-neutral-400 uppercase">
-                  CATEGORIES
-                </p>
-                <ul className="mt-3 space-y-2">
-                  {CATEGORY_LINKS.map((cat) => (
-                    <li key={cat.label}>
-                      <button
-                        type="button"
-                        onClick={() => handleNavigate('/collections')}
-                        className="flex w-full items-center justify-between text-xs text-neutral-700 transition-colors hover:text-neutral-900"
-                      >
-                        <span>{cat.label}</span>
-                        <span className="text-[11px] text-neutral-400">
-                          {cat.count}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+              {/* Right Column: Top Matches */}
+              <div className="lg:col-span-9">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <p className="text-[10px] font-bold tracking-[0.16em] text-neutral-400 uppercase">
+                      TOP MATCHES
+                    </p>
+                    <span className="rounded-full bg-neutral-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white">
+                      {matchedProducts.length}
+                    </span>
+                  </div>
 
-            {/* Right Column: Top Matches */}
-            <div className="lg:col-span-9">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-[10px] font-semibold tracking-[0.16em] text-neutral-400 uppercase">
-                  TOP MATCHES ({matchedProducts.length})
-                </p>
-
-                <Link
-                  to="/collections"
-                  onClick={onClose}
-                  className="text-xs font-semibold text-neutral-900 underline underline-offset-4 transition-opacity hover:opacity-75"
-                >
-                  View All Results →
-                </Link>
-              </div>
-
-              {matchedProducts.length === 0 ? (
-                <div className="mt-6 rounded-xl bg-[#F5F5F5] px-6 py-12 text-center">
-                  <p className="font-editorial text-sm font-semibold text-neutral-900">
-                    No matching silhouettes for &ldquo;{query}&rdquo;
-                  </p>
-                  <p className="mt-1 text-xs text-neutral-500">
-                    Try searching for &ldquo;aero&rdquo;, &ldquo;carbon&rdquo;,
-                    or &ldquo;trail&rdquo;.
-                  </p>
+                  <Link
+                    to="/collections"
+                    onClick={onClose}
+                    className="group inline-flex items-center gap-1.5 text-xs font-bold text-neutral-950 transition-colors hover:text-[#F04E2A]"
+                  >
+                    <span>View All Results</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
                 </div>
-              ) : (
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                  {matchedProducts.map((product) => {
-                    const isAdded = justAddedId === product.id;
-                    return (
-                      <article
-                        key={product.id}
-                        className="group rounded-xl bg-[#F7F7F8] p-3 transition-shadow hover:shadow-sm"
-                      >
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-[#E5E5E7]">
-                          {product.badge && (
-                            <span className="absolute top-2 right-2 z-10 rounded bg-stride-red px-2 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase">
-                              {product.badge}
-                            </span>
-                          )}
 
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleNavigate(`/product/${product.slug}`)
-                            }
-                            className="block h-full w-full"
-                          >
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                          </button>
-                        </div>
-
-                        <div className="mt-3">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleNavigate(`/product/${product.slug}`)
-                            }
-                            className="block text-left font-editorial text-xs font-semibold text-neutral-900 transition-colors hover:text-stride-red"
-                          >
-                            {product.name}
-                          </button>
-
-                          <p className="mt-0.5 text-[10px] text-neutral-400">
-                            {product.stockNote}
-                          </p>
-
-                          <div className="mt-3 flex items-center justify-between">
-                            <span className="text-xs font-bold text-neutral-900">
-                              ${product.price.toFixed(2)}
-                            </span>
+                {matchedProducts.length === 0 ? (
+                  <div className="mt-6 rounded-2xl border border-neutral-200/70 bg-[#FAFAFB] px-6 py-14 text-center">
+                    <p className="font-display text-sm font-bold text-neutral-950 uppercase">
+                      No matching silhouettes for &ldquo;{query}&rdquo;
+                    </p>
+                    <p className="mt-1 text-xs text-neutral-500">
+                      Try searching for &ldquo;carbon&rdquo;, &ldquo;aero&rdquo;,
+                      or &ldquo;trail&rdquo;.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {matchedProducts.map((product) => {
+                      const isAdded = justAddedId === product.id;
+                      return (
+                        <article
+                          key={product.id}
+                          className="group rounded-2xl border border-neutral-200/80 bg-[#FAFAFB] p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-white hover:shadow-lg"
+                        >
+                          <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#ECECEF]">
+                            {product.badge && (
+                              <span className="absolute top-2 right-2 z-10 rounded-md bg-[#F04E2A] px-2 py-0.5 text-[9px] font-bold tracking-wider text-white uppercase">
+                                {product.badge}
+                              </span>
+                            )}
 
                             <button
                               type="button"
-                              onClick={() => handleQuickAdd(product)}
-                              aria-label={`Add ${product.name} to bag`}
-                              className={`flex h-7 w-7 items-center justify-center rounded-full text-white transition-all active:scale-95 ${
-                                isAdded
-                                  ? 'bg-emerald-600'
-                                  : 'bg-neutral-900 hover:bg-neutral-700'
-                              }`}
+                              onClick={() =>
+                                handleNavigate(`/product/${product.slug}`)
+                              }
+                              className="block h-full w-full"
                             >
-                              {isAdded ? (
-                                <Check className="h-3.5 w-3.5" strokeWidth={2.3} />
-                              ) : (
-                                <Plus className="h-3.5 w-3.5" strokeWidth={2.3} />
-                              )}
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
                             </button>
                           </div>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              )}
+
+                          <div className="mt-3 px-0.5">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleNavigate(`/product/${product.slug}`)
+                              }
+                              className="block text-left font-display text-xs font-bold text-neutral-950 transition-colors hover:text-[#F04E2A]"
+                            >
+                              {product.name}
+                            </button>
+
+                            <p className="mt-0.5 text-[10px] font-medium text-neutral-400">
+                              {product.stockNote}
+                            </p>
+
+                            <div className="mt-3 flex items-center justify-between border-t border-neutral-100 pt-2.5">
+                              <span className="font-display text-xs font-bold text-neutral-950">
+                                ${product.price.toFixed(2)}
+                              </span>
+
+                              <button
+                                type="button"
+                                onClick={() => handleQuickAdd(product)}
+                                aria-label={`Add ${product.name} to bag`}
+                                className={`flex h-7 w-7 items-center justify-center rounded-full text-white transition-all active:scale-95 ${
+                                  isAdded
+                                    ? 'bg-emerald-600'
+                                    : 'bg-neutral-950 hover:bg-[#F04E2A]'
+                                }`}
+                              >
+                                {isAdded ? (
+                                  <Check
+                                    className="h-3.5 w-3.5"
+                                    strokeWidth={2.4}
+                                  />
+                                ) : (
+                                  <Plus
+                                    className="h-3.5 w-3.5"
+                                    strokeWidth={2.4}
+                                  />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
